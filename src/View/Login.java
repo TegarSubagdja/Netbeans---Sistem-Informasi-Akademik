@@ -1,6 +1,6 @@
 package View;
 
-import Control.ControllerMahasiswa;
+import Control.ControllerLogin;
 import Model.Akun;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -15,11 +15,11 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         setupButtonUI();
     }
-    
+
     private void setupButtonUI() {
         JButton[] btns = {jButton1};
         for (JButton btn : btns) {
-            btn.setBackground(new Color(51,51,51));
+            btn.setBackground(new Color(51, 51, 51));
             btn.setUI(new BasicButtonUI());
             btn.addMouseListener(new MouseInputListener() {
                 @Override
@@ -33,7 +33,7 @@ public class Login extends javax.swing.JFrame {
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    btn.setBackground(new Color(51,51,51));
+                    btn.setBackground(new Color(51, 51, 51));
                 }
 
                 @Override
@@ -43,7 +43,7 @@ public class Login extends javax.swing.JFrame {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    btn.setBackground(new Color(51,51,51));
+                    btn.setBackground(new Color(51, 51, 51));
                 }
 
                 @Override
@@ -72,8 +72,6 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         PasswordField = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
@@ -155,20 +153,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Fira Sans", 0, 11)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(193, 195, 199));
-        jLabel4.setText("Lupa Password?");
-
-        jButton2.setBackground(new java.awt.Color(33, 32, 36));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(193, 195, 199));
-        jButton2.setText("Disini");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
@@ -185,12 +169,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(UsernameField)
                             .addComponent(jLabel3)
                             .addComponent(PasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
-                            .addGroup(LeftLayout.createSequentialGroup()
-                                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
-                                .addGap(3, 3, 3)
-                                .addComponent(jButton2)))))
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         LeftLayout.setVerticalGroup(
@@ -208,11 +187,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jButton2))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         jPanel1.add(Left);
@@ -246,20 +221,20 @@ public class Login extends javax.swing.JFrame {
         username = UsernameField.getText();
         char[] passwordChars = PasswordField.getPassword();
         password = new String(passwordChars);
-        ControllerMahasiswa crl = new ControllerMahasiswa();
+        ControllerLogin crl = new ControllerLogin();
         Akun acc = crl.checkLogin(username, password);
-        if (acc != null) {
+        if (username.equals("admin") && password.equals("admin")) {
+            Admin admin = new Admin(acc);
+            admin.setVisible(true);
+            this.dispose();
+        } else if (acc != null) {
             Index idx = new Index(acc);
             idx.setVisible(true);
-            this.setVisible(false);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Password atau sandi tidak ditemukan.", "Login Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -271,11 +246,9 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel Right;
     private javax.swing.JTextField UsernameField;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;

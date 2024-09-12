@@ -9,7 +9,6 @@ package Model;
  * @author kingt
  */
 public class Nilai {
-    private int id;
     private String kode;
     private String mataKuliah;
     private String sks;
@@ -21,8 +20,7 @@ public class Nilai {
     public Nilai() {
     }
 
-    public Nilai(int id, String kode, String mataKuliah, String sks, String semester, String nilai, String bobot, String nk) {
-        this.id = id;
+    public Nilai(String kode, String mataKuliah, String sks, String semester, String nilai, String bobot, String nk) {
         this.kode = kode;
         this.mataKuliah = mataKuliah;
         this.sks = sks;
@@ -30,14 +28,6 @@ public class Nilai {
         this.nilai = nilai;
         this.bobot = bobot;
         this.nk = nk;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getKode() {
@@ -95,4 +85,6 @@ public class Nilai {
     public void setNk(String nk) {
         this.nk = nk;
     }
+
+    
 }

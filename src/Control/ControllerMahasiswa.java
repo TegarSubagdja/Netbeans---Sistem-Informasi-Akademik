@@ -174,8 +174,8 @@ public class ControllerMahasiswa {
         return listMk;
     }
 
-    public void updateKeuangan(double ukt) {
-        String query = "UPDATE keuangan_mhs SET ukt='" + ukt + "' WHERE nim='" + acc.getNim() + "'";
+    public void updateKeuangan(double ukv, double total) {
+        String query = "UPDATE keuangan_mhs SET ukv='" + ukv + "', total='" + total + "' WHERE nim='" + acc.getNim() + "'";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
         try {
@@ -188,6 +188,7 @@ public class ControllerMahasiswa {
     }
 
     public Keuangan getKeuangan() {
+        double denda = 0;
         String query = "SELECT * FROM keuangan_mhs WHERE nim='" + acc.getNim() + "'";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
@@ -198,10 +199,12 @@ public class ControllerMahasiswa {
             while (rs.next()) {
                 ku.setDpp_wajib(rs.getInt("dpp_wajib"));
                 ku.setUkt(rs.getInt("ukt"));
+                ku.setBiaya(rs.getInt("biayaSks"));
                 ku.setUkv(rs.getInt("ukv"));
                 ku.setTanggalJatuhTempoPembayaran(rs.getTimestamp("tanggal_jatuh_tempo_pembayaran"));
                 ku.setTanggalJatuhTempoPerwalian(rs.getTimestamp("tanggal_jatuh_tempo_perwalian"));
-                ku.setLunas(rs.getBoolean("lunas")); 
+                ku.setLunas(rs.getBoolean("lunas"));
+                denda = rs.getDouble("denda");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
@@ -213,7 +216,7 @@ public class ControllerMahasiswa {
             LocalDate currentDate = LocalDate.now();
             LocalDate jatuhTempoPembayaran = ku.getTanggalJatuhTempoPembayaran().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             if (currentDate.isAfter(jatuhTempoPembayaran)) {
-                dendaPembayaran = (int) Math.round((ku.getDpp_wajib() + ku.getUkt() + ku.getUkv()) * 0.05);
+                dendaPembayaran = (int) Math.round((ku.getDpp_wajib() + ku.getUkt() + ku.getUkv()) * denda);
             }
         }
 
@@ -222,7 +225,7 @@ public class ControllerMahasiswa {
             LocalDate currentDate = LocalDate.now();
             LocalDate jatuhTempoPerwalian = ku.getTanggalJatuhTempoPerwalian().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             if (currentDate.isAfter(jatuhTempoPerwalian)) {
-                dendaPerwalian = (int) Math.round((ku.getDpp_wajib() + ku.getUkt() + ku.getUkv()) * 0.05);
+                dendaPerwalian = (int) Math.round((ku.getDpp_wajib() + ku.getUkt() + ku.getUkv()) * denda);
             }
         }
         int totalDenda = dendaPembayaran + dendaPerwalian;
@@ -381,7 +384,7 @@ public class ControllerMahasiswa {
         }
         return hasil;
     }
-    
+
     public int kurangSks(int sks) {
         int hasil = 0;
         String query = "UPDATE perwalian_mhs SET sks='" + sks + "', mk=(mk-1), tanggal_update=NOW() WHERE nim=" + acc.getNim();
@@ -414,7 +417,7 @@ public class ControllerMahasiswa {
         conMan.logOff();
         return hasil;
     }
-    
+
     public int kurangMk(String kode) {
         int hasil = 0;
         String query = "UPDATE matakuliah SET status_awal='Batal', sisa=(sisa+1) WHERE kode='" + kode + "' AND sisa > 0";
@@ -424,7 +427,7 @@ public class ControllerMahasiswa {
             Statement stm = conn.createStatement();
             hasil = stm.executeUpdate(query);
             if (hasil > 0) {
-                hasil = 1; 
+                hasil = 1;
             }
             stm.close();
         } catch (SQLException ex) {
@@ -474,5 +477,12 @@ public class ControllerMahasiswa {
         }
         conMan.logOff();
         return adaSisa;
+    }
+
+    public int totalKewajiban() {
+        int sks = (int) getSks();
+        Keuangan b = getKeuangan();
+        int totalKewajiban = (sks * b.getBiaya()) + b.getTelat_perwalian() + b.getTelat_pembayaran();
+        return totalKewajiban;
     }
 }

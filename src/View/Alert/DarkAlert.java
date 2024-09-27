@@ -24,7 +24,7 @@ public class DarkAlert {
         textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
         JLabel messageLabel = new JLabel(message);
-        messageLabel.setForeground(new Color(23, 23, 26)); // Mengatur warna teks pesan
+        messageLabel.setForeground(new Color(23, 23, 26)); 
         messageLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
         Object[] components = {messageLabel, textField};

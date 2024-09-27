@@ -17,9 +17,9 @@ public class ConnectionManager {
     // Deklarasi atribut private Connection, String driver, url, username, dan password
     private Connection con;
     private String driver = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://localhost:3306/sikad";  // myDB --> nama database 
-    private String username = "root";       // user name DMBS
-    private String password = "";    // pswd DMBS
+    private String url = "jdbc:mysql://localhost:3306/sikad";  
+    private String username = "root";       
+    private String password = "";  
 
     public Connection logOn() {
         try {

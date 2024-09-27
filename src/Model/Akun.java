@@ -9,25 +9,35 @@ package Model;
  * @author kingt
  */
 public class Akun {
-    private int nim;
+    private int id;
+    private String jenis;
     private String username;
     private String password;
 
     public Akun() {
     }
 
-    public Akun(int nim, String username, String password) {
-        this.nim = nim;
+    public Akun(int id, String jenis, String username, String password) {
+        this.id = id;
+        this.jenis = jenis;
         this.username = username;
         this.password = password;
     }
 
-    public int getNim() {
-        return nim;
+    public int getId() {
+        return id;
     }
 
-    public void setNim(int nim) {
-        this.nim = nim;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getJenis() {
+        return jenis;
+    }
+
+    public void setJenis(String jenis) {
+        this.jenis = jenis;
     }
 
     public String getUsername() {
@@ -45,4 +55,5 @@ public class Akun {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
